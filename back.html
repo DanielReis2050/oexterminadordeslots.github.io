@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Exterminador de Slots</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap'); /* Fonte estilo matrix */
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto; /* Altura ajustada para permitir a rolagem */
+            background-color: #000;
+            overflow-x: hidden;
+        }
+
+        .bloco01 img {
+            width: 205px;
+            height: 205px;
+        }
+
+        .animais img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .bloco01 {
+            background-color: rgba(240, 248, 255, 0);
+            width: 100%;
+            height: 250px; /* Aumentamos a altura para garantir visibilidade */
+            text-align: center;
+            overflow: hidden;
+            position: relative; /* Posição relativa para conter as fichas absolutamente */
+            padding-top: 10px;
+        }
+
+        .fichas {
+            position: absolute;
+            top: -30px; /* Ajuste para iniciar um pouco acima do topo do bloco01 */
+            left: 0;
+            width: 100%;
+            height: calc(100% + 30px); /* Ajuste para garantir que as fichas possam cair de cima */
+            pointer-events: none; /* Evita que as fichas interfiram com a interação do usuário */
+        }
+
+        .ficha {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('/ficha\ verde\ claro.png'); /* Imagem de fichas de cassino */
+            background-size: cover;
+            animation: queda 3s linear infinite; /* Animação de queda */
+        }
+
+        @keyframes queda {
+            0% {
+                transform: translateY(-100%);
+                opacity: 1;
+            }
+            50% {
+                opacity: 2;
+            }
+            100% {
+                transform: translateY(100vh); /* Fichas caem até o final da tela */
+                opacity: 0;
+            }
+        }
+
+        .navbar {
+            width: 100%;
+            height: 70px;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #11ac44;
+            box-shadow: 0 4px 8px rgba(0, 255, 64, 0.5);
+            animation: pulse-shadow 2s infinite;
+            position: absolute;
+            top: 190px;
+        }
+
+        .text-center {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: #00ff6a;
+        }
+
+        @keyframes pulse-shadow {
+            0%, 100% {
+                box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 4px 16px rgba(0, 255, 85, 0.9);
+            }
+        }
+
+        .animais {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 0px;
+            padding-bottom: 100px;
+            top: 10px;
+        }
+
+        .jogos {
+            padding-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center; /* Centraliza os elementos horizontalmente */
+        }
+
+        .animal-box {
+            position: relative;
+            width: 270px;
+            height: 230px; /* Aumentado um pouco para melhor acomodação visual */
+            background-color: #3498db00;
+            margin-bottom: 15px;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .animal-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .animal-name {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background-color: #f0f0f0;
+            position: absolute;
+            bottom: 0px; /* Posiciona a barra de progresso abaixo da caixa */
+            left: 0;
+            border-radius: 5px;
+            overflow: hidden;
+            top: 260px; /* Ajustado para melhor posição */
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #4caf50;
+        }
+
+        .percentage-text {
+            font-family: 'VT323', monospace; /* Aplicando a fonte estilo matrix */
+            color: #000000;
+            font-size: 0.8rem;
+            position: relative;
+            top: -20px; /* Ajuste fino para alinhar o texto da porcentagem */
+            text-transform: uppercase; /* Transforma o texto em maiúsculas */
+            letter-spacing: 2px; /* Espaçamento entre letras */
+        }
+
+        .provas-sociais-container {
+            position: fixed;
+            top: 10px; /* Ajuste conforme necessário */
+            left: 10px; /* Ajuste conforme necessário */
+            z-index: 1000; /* Garante que a div esteja acima de outros elementos */
+            overflow: hidden;
+            width: 100%; /* Ajuste conforme necessário */
+        }
+
+        .prova-social {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            white-space: nowrap; /* Impede quebrar a linha */
+            animation: slideRight 10s linear forwards; /* Animação de deslize para a direita */
+        }
+        
+        @keyframes slideRight {
+            0% {
+                transform: translateX(-100%); /* Inicia fora da tela à esquerda */
+                opacity: 1;
+            }
+            80% {
+                opacity: 1; /* Mantém a opacidade até 80% do tempo */
+            }
+            100% {
+                transform: translateX(100%); /* Termina fora da tela à direita */
+                opacity: 0; /* Desaparece gradualmente */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bloco01">
+        <!-- Fundo de fichas animadas -->
+        <div class="fichas" id="fichas-container">
+            <!-- Criando várias fichas usando JavaScript -->
+        </div>
+
+        <img src="/Design sem nome (6).png" alt="" srcset="">
+    </div>
+
+    <nav class="navbar">
+        <div class="text-center">
+            RESULTADOS OBTIDOS
+        </div>
+    </nav>
+
+    <div class="animais" style="background-color: #222;">
+        <div class="jogos">
+            <div class="animal-box">
+                <div class="animal-name" style="box-shadow: #000;"><img src="/jogo-3-5.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                    <div class="percentage-text">70% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/jogo-3 (1).png" alt="" srcset="" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 50%;"></div>
+                    <div class="percentage-text">50% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/jogo-4.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                    <div class="percentage-text">85% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/jogo-2.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                    <div class="percentage-text">65% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/jogo-1.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 95%;"></div>
+                    <div class="percentage-text">95% DA META BATIDA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container para as provas sociais -->
+    <div class="provas-sociais-container" id="provas-sociais-container">
+        <!-- Provas sociais serão adicionadas aqui pelo JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const provasSociaisContainer = document.getElementById('provas-sociais-container');
+
+            function adicionarProvaSocial(mensagem) {
+                const provaSocial = document.createElement('div');
+                provaSocial.className = 'prova-social';
+                provaSocial.textContent = mensagem;
+
+                provasSociaisContainer.appendChild(provaSocial);
+
+                // Remove a prova social após 10 segundos
+                setTimeout(() => {
+                    provaSocial.remove();
+                }, 10000);
+            }
+
+            // Exemplo de adição de provas sociais
+            setInterval(() => {
+                const mensagens = [
+                    "João ganhou R$ 100,00",
+                    "Maria ganhou R$ 200,00",
+                    "Pedro ganhou R$ 300,00",
+                    "Ana ganhou R$ 400,00"
+                ];
+
+                const mensagem = mensagens[Math.floor(Math.random() * mensagens.length)];
+                adicionarProvaSocial(mensagem);
+            }, 5000); // Adiciona uma nova prova social a cada 5 segundos
+
+            const fichasContainer = document.getElementById('fichas-container');
+
+            function criarFichas() {
+                for (let i = 0; i < 10; i++) { // Ajuste o número de fichas conforme necessário
+                    const ficha = document.createElement('div');
+                    ficha.className = 'ficha';
+                    ficha.style.left = `${Math.random() * 100}%`; // Posição horizontal aleatória
+                    ficha.style.animationDelay = `${Math.random() * 5}s`; // Atraso de animação aleatório
+                    ficha.style.animationDuration = `${2 + Math.random() * 3}s`; // Duração de animação aleatória entre 2 e 5 segundos
+                    fichasContainer.appendChild(ficha);
+                }
+            }
+
+            criarFichas();
+        });
+    </script>
+</body>
+</html>

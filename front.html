@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Exterminador de Slots</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap'); /* Fonte estilo matrix */
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: auto; /* Altura ajustada para permitir a rolagem */
+            background-color: #000;
+        }
+
+        .bloco01 img {
+            width: 205px;
+            height: 205px;
+        }
+
+        .animais img{
+            width: 200px;
+            height: 200px;
+        }
+
+        .bloco01 {
+            background-color: rgba(240, 248, 255, 0);
+            width: 100%;
+            height: 250px; /* Aumentamos a altura para garantir visibilidade */
+            text-align: center;
+            overflow: hidden;
+            position: relative; /* Posição relativa para conter as fichas absolutamente */
+            padding-top: 10px;
+        }
+
+        .fichas {
+            position: absolute;
+            top: -30px; /* Ajuste para iniciar um pouco acima do topo do bloco01 */
+            left: 0;
+            width: 100%;
+            height: calc(100% + 30px); /* Ajuste para garantir que as fichas possam cair de cima */
+            pointer-events: none; /* Evita que as fichas interfiram com a interação do usuário */
+        }
+
+        .ficha {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('/ficha\ verde\ claro.png'); /* Imagem de fichas de cassino */
+            background-size: cover;
+            animation: queda 3s linear infinite; /* Animação de queda */
+        }
+
+        @keyframes queda {
+            0% {
+                transform: translateY(-100%);
+                opacity: 1;
+            }
+            50% {
+                opacity: 2;
+            }
+            100% {
+                transform: translateY(100vh); /* Fichas caem até o final da tela */
+                opacity: 0;
+            }
+        }
+
+        .navbar {
+            width: 100%;
+            height: 70px;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #11ac44;
+            box-shadow: 0 4px 8px rgba(0, 255, 64, 0.5);
+            animation: pulse-shadow 2s infinite;
+            position: absolute;
+            top: 190px;
+        }
+
+        .text-center {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: #00ff6a;
+        }
+
+        @keyframes pulse-shadow {
+            0%, 100% {
+                box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 4px 16px rgba(0, 255, 85, 0.9);
+            }
+        }
+
+        .animais {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 0px;
+            padding-bottom: 100px;
+            top: 10px;
+        }
+
+        .jogos {
+            padding-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center; /* Centraliza os elementos horizontalmente */
+        }
+
+        .animal-box {
+            position: relative;
+            width: 270px;
+            height: 230px; /* Aumentado um pouco para melhor acomodação visual */
+            background-color: #3498db00;
+            margin-bottom: 15px;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .animal-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .animal-name {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background-color: #f0f0f0;
+            position: absolute;
+            bottom: 0px; /* Posiciona a barra de progresso abaixo da caixa */
+            left: 0;
+            border-radius: 5px;
+            overflow: hidden;
+            top: 260px; /* Ajustado para melhor posição */
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #4caf50;
+        }
+
+        .percentage-text {
+            font-family: 'VT323', monospace; /* Aplicando a fonte estilo matrix */
+            color: #000000;
+            font-size: 0.8rem;
+            position: relative;
+            top: -20px; /* Ajuste fino para alinhar o texto da porcentagem */
+            text-transform: uppercase; /* Transforma o texto em maiúsculas */
+            letter-spacing: 2px; /* Espaçamento entre letras */
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .prova-social {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 80px;
+            right: 40px;
+            opacity: 0; /* Inicia invisível */
+            animation: fadeInOut 10s linear forwards; /* Animação de fadeIn e fadeOut */
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0; /* Início e fim invisível */
+            }
+            10%, 90% {
+                opacity: 1; /* Visível durante a maior parte da animação */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bloco01">
+        <!-- Fundo de fichas animadas -->
+        <div class="fichas" id="fichas-container">
+            <!-- Criando várias fichas usando JavaScript -->
+        </div>
+
+        <img src="/Design sem nome (6).png" alt="" srcset="">
+    </div>
+
+    
+
+    <nav class="navbar">
+
+        <div class="text-center">
+            RESULTADOS OBTIDOS
+        </div>
+    </nav>
+    
+    
+
+    
+
+    <div class="animais" style="background-color: #222;">
+        <div class="jogos">
+            <div class="animal-box">
+                <div class="animal-name" style="box-shadow: #000;"><img src="/jogo-3-5.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                    <div class="percentage-text">70% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/jogo-3 (1).png" alt="" srcset="" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 50%;"></div>
+                    <div class="percentage-text">50% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/jogo-4.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                    <div class="percentage-text">85% DA META BATIDA</div>
+                </div>
+            </div>
+              
+            <div class="animal-box">
+                <div class="animal-name"><img src="/fortune-rabbit-1.png" alt="" srcset=""></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%;"></div>
+                    <div class="percentage-text">30% DA META BATIDA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+const typebotInitScript = document.createElement("script");
+typebotInitScript.type = "module";
+typebotInitScript.innerHTML = `import Typebot from 'https://cdn.jsdelivr.net/npm/@typebot.io/js@0.3/dist/web.js'
+  
+Typebot.initStandard({ typebot: "my-typebot-qe1b57t" });
+`;
+document.body.append(typebotInitScript);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // Função para calcular e atualizar porcentagens aleatórias
+    function atualizarPorcentagens() {
+        const animalBoxes = document.querySelectorAll('.animal-box');
+
+        animalBoxes.forEach(box => {
+            const progressBar = box.querySelector('.progress-bar');
+            const progressFill = progressBar.querySelector('.progress-fill');
+            
+            // Gerar uma porcentagem aleatória entre 1 e 100
+            const percentage = Math.floor(Math.random() * 100) + 1;
+
+            // Ajustar a largura da barra de progresso
+            progressFill.style.width = `${percentage}%`;
+
+            // Mudar a cor da barra de progresso conforme a porcentagem
+            if (percentage < 30) {
+                progressFill.style.backgroundColor = 'red';
+            } else if (percentage < 80) {
+                progressFill.style.backgroundColor = 'yellow';
+            } else {
+                progressFill.style.backgroundColor = '#4caf50'; // Verde padrão
+            }
+
+            // Atualizar o texto da porcentagem
+            const percentageText = progressBar.querySelector('.percentage-text');
+            percentageText.textContent = `PROGESSO DA META ${percentage}%`;
+        });
+    }
+
+    // Executar a função inicialmente ao carregar a página
+    document.addEventListener("DOMContentLoaded", function() {
+        atualizarPorcentagens();
+    });
+
+    // Atualizar a cada 5 segundos
+    setInterval(function() {
+        atualizarPorcentagens();
+    }, 5000); // 5000 milissegundos = 5 segundos
+</script>
+
+
+
+
+<script>
+    // Script para criar e animar fichas
+    document.addEventListener("DOMContentLoaded", function() {
+        const fichasContainer = document.getElementById('fichas-container');
+
+        function criarFichas() {
+            const numeroFichas = 20; // Quantidade de fichas a serem criadas
+
+            for (let i = 0; i < numeroFichas; i++) {
+                const ficha = document.createElement('div');
+                ficha.classList.add('ficha');
+                ficha.style.left = `${Math.random() * 100}%`; // Posição horizontal aleatória
+                ficha.style.animationDelay = `${Math.random() * 3}s`; // Delay aleatório para animação
+                fichasContainer.appendChild(ficha);
+            }
+        }
+
+        criarFichas(); // Chama a função para criar as fichas
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+<script>
+    // Lista de nomes aleatórios
+    const nomes = [
+        "João", "Maria", "Pedro", "Ana", "Carlos", "Laura", "Mariana", "Rafael",
+        "Gabriel", "Camila", "Lucas", "Lara", "Fernando", "Isabela", "Tiago", "Carolina"
+        // Adicione mais nomes conforme necessário
+    ];
+
+    // Lista de apostas aleatórias
+    const apostas = [
+        "apostou R$ 0.80",
+        "ganhou R$ 100",
+        "apostou R$ 20",
+        "ganhou R$ 200",
+        "apostou R$ 5",
+        "ganhou R$ 50",
+        "apostou R$ 10",
+        "ganhou R$ 500",
+        "apostou R$ 1.50",
+        "ganhou R$ 300",
+        "apostou R$ 15",
+        "ganhou R$ 1000"
+        // Adicione mais variações de apostas conforme necessário
+    ];
+
+    // Função para gerar nome aleatório
+    function gerarNome() {
+        return nomes[Math.floor(Math.random() * nomes.length)];
+    }
+
+    // Função para gerar aposta aleatória
+    function gerarAposta() {
+        return apostas[Math.floor(Math.random() * apostas.length)];
+    }
+
+    // Função para criar provas sociais continuamente
+    function criarProvaSocial() {
+        const nome = gerarNome();
+        const aposta = gerarAposta();
+
+        // Cria um elemento para exibir a prova social
+        const provaSocialElement = document.createElement('div');
+        provaSocialElement.classList.add('prova-social');
+        provaSocialElement.textContent = `${nome} ${aposta}`;
+
+        // Adiciona a prova social ao corpo do documento
+        document.body.appendChild(provaSocialElement);
+
+        // Remove a prova social após um tempo para simular um fluxo contínuo
+        setTimeout(() => {
+            provaSocialElement.remove();
+        }, 10000); // Ajuste o tempo conforme necessário
+    }
+
+    // Cria provas sociais continuamente
+    setInterval(criarProvaSocial, 12000); // Ajuste o intervalo conforme necessário
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // Função para calcular e atualizar porcentagens aleatórias
+    function atualizarPorcentagens() {
+        const animalBoxes = document.querySelectorAll('.animal-box');
+
+        animalBoxes.forEach(box => {
+            const progressBar = box.querySelector('.progress-bar');
+            const progressFill = progressBar.querySelector('.progress-fill');
+            
+            // Gerar uma porcentagem aleatória entre 1 e 100
+            const percentage = Math.floor(Math.random() * 100) + 1;
+
+            // Ajustar a largura da barra de progresso
+            progressFill.style.width = `${percentage}%`;
+
+            // Mudar a cor da barra de progresso conforme a porcentagem
+            if (percentage < 30) {
+                progressFill.style.backgroundColor = 'red';
+            } else if (percentage < 80) {
+                progressFill.style.backgroundColor = 'yellow';
+            } else {
+                progressFill.style.backgroundColor = '#4caf50'; // Verde padrão
+            }
+
+            // Atualizar o texto da porcentagem
+            const percentageText = progressBar.querySelector('.percentage-text');
+            percentageText.textContent = `PROGESSO DA META ${percentage}%`;
+        });
+    }
+
+    // Executar ao carregar a página
+    document.addEventListener("DOMContentLoaded", function() {
+        atualizarPorcentagens();
+    });
+
+    // Executar ao clicar no botão "Buscar oportunidades"
+    const buscarOportunidadesBtn = document.getElementById('buscarOportunidades');
+    buscarOportunidadesBtn.addEventListener('click', function() {
+        atualizarPorcentagens();
+    });
+</script>
+
+
+
+<footer style="padding: 10px;">
+    <p style="color: #c2c2c2; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">O Exterminador de Slots© é uma plataforma dedicada a auxiliar indivíduos na busca por resultados financeiros através do jogo online. Não garantimos resultados específicos nem prometemos recuperação de investimentos. Os depoimentos apresentados refletem experiências individuais e podem variar conforme o esforço pessoal, conhecimento adquirido e as dinâmicas do mercado, sobre as quais não temos controle direto.</p>
+</footer>
+
+
+
+
+</body>
+</html>
